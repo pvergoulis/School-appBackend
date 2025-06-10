@@ -41,25 +41,11 @@ exports.options = {
   ],
   "paths": {
     "/api/users": {
-      "get": { "tags": ["Users"], "description": "Λήψη όλων των χρηστών" }
-    },
-    "/api/users/register": {
-      "post": {
-        "tags": ["Users"],
-        "description": "Εγγραφή νέου χρήστη",
-        "requestBody": {
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
-        },
-        "responses": { "201": { "description": "Επιτυχής εγγραφή χρήστη" } }
-      }
-    },
-    "/api/users/create": {
+      "get": { "tags": ["Users"], "description": "Λήψη όλων των χρηστών" },
       "post": {
         "tags": ["Users"],
         "description": "Δημιουργία νέου χρήστη",
-        "requestBody": {
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } }
-        },
+        "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
         "responses": { "201": { "description": "Επιτυχής δημιουργία χρήστη" } }
       }
     },
@@ -69,62 +55,89 @@ exports.options = {
       "delete": { "tags": ["Users"], "description": "Διαγραφή χρήστη" }
     },
     "/api/users/check_duplicate_email/{email}": {
-      "get": {
-        "tags": ["Users"],
-        "description": "Έλεγχος εάν υπάρχει το email",
-        "parameters": [{ "name": "email", "in": "path", "required": true, "description": "Email χρήστη", "schema": { "type": "string" } }],
-        "responses": {
-          "200": { "description": "Το email είναι διαθέσιμο" },
-          "400": { "description": "Το email υπάρχει ήδη" }
-        }
-      }
+      "get": { "tags": ["Users"], "description": "Έλεγχος εάν υπάρχει το email" }
     },
     "/api/users/check_duplicate_username/{username}": {
-      "get": {
-        "tags": ["Users"],
-        "description": "Έλεγχος εάν υπάρχει το username",
-        "parameters": [{ "name": "username", "in": "path", "required": true, "description": "Username χρήστη", "schema": { "type": "string" } }],
-        "responses": {
-          "200": { "description": "Το username είναι διαθέσιμο" },
-          "400": { "description": "Το username υπάρχει ήδη" }
-        }
-      }
+      "get": { "tags": ["Users"], "description": "Έλεγχος εάν υπάρχει το username" }
     },
     "/api/teachers": {
-      "get": { "tags": ["Teachers"], "description": "Λήψη όλων των καθηγητών" }
-    },
-    "/api/teachers/create": {
+      "get": { "tags": ["Teachers"], "description": "Λήψη όλων των καθηγητών" },
       "post": {
         "tags": ["Teachers"],
         "description": "Δημιουργία νέου καθηγητή",
-        "requestBody": {
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Teacher" } } }
-        },
+        "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Teacher" } } } },
         "responses": { "201": { "description": "Επιτυχής δημιουργία καθηγητή" } }
       }
     },
-    "/api/teachers/{vat}": {
-      "get": { "tags": ["Teachers"], "description": "Βρες καθηγητή με VAT" },
-      "patch": { "tags": ["Teachers"], "description": "Ενημέρωση καθηγητή" },
-      "delete": { "tags": ["Teachers"], "description": "Διαγραφή καθηγητή" }
+    "/api/teachers/{firstname}": {
+  "get": {
+    "tags": ["Teachers"],
+    "description": "Βρες καθηγητή με Firstname",
+    "parameters": [
+      { "name": "firstname", "in": "path", "required": true, "description": "Το μικρό όνομα του καθηγητή", "schema": { "type": "string" } }
+    ],
+    "responses": { "200": { "description": "Επιτυχής εύρεση καθηγητή" }, "404": { "description": "Ο καθηγητής δεν βρέθηκε" } }
+  }
+},
+"/api/teachers/update/{vat}": {
+  "patch": {
+    "tags": ["Teachers"],
+    "description": "Ενημέρωση στοιχείων καθηγητή με VAT",
+    "parameters": [
+      { "name": "vat", "in": "path", "required": true, "description": "Το VAT του καθηγητή", "schema": { "type": "string" } }
+    ],
+    "requestBody": {
+      "description": "Νέα στοιχεία καθηγητή",
+      "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Teacher" } } }
     },
+    "responses": { "200": { "description": "Ο καθηγητής ενημερώθηκε" } }
+  }
+},
+"/api/teachers/delete/{vat}": {
+  "delete": {
+    "tags": ["Teachers"],
+    "description": "Διαγραφή καθηγητή με VAT",
+    "parameters": [
+      { "name": "vat", "in": "path", "required": true, "description": "Το VAT του καθηγητή", "schema": { "type": "string" } }
+    ],
+    "responses": { "200": { "description": "Ο καθηγητής διαγράφηκε" }, "404": { "description": "Ο καθηγητής δεν βρέθηκε" } }
+  }
+},
     "/api/students": {
-      "get": { "tags": ["Students"], "description": "Λήψη όλων των μαθητών" }
-    },
-    "/api/students/create": {
+      "get": { "tags": ["Students"], "description": "Λήψη όλων των μαθητών" },
       "post": {
         "tags": ["Students"],
         "description": "Δημιουργία νέου μαθητή",
-        "requestBody": {
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Student" } } }
-        },
+        "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Student" } } } },
         "responses": { "201": { "description": "Επιτυχής δημιουργία μαθητή" } }
       }
     },
-    "/api/students/{email}": {
-      "get": { "tags": ["Students"], "description": "Βρες μαθητή με email" },
-      "patch": { "tags": ["Students"], "description": "Ενημέρωση μαθητή" },
-      "delete": { "tags": ["Students"], "description": "Διαγραφή μαθητή" }
-    }
-  }
-};
+    "/api/students/{firstname}": {
+      "get": {
+        "tags": ["Students"],
+        "description": "Βρες μαθητή με Firstname",
+        "parameters": [
+          { "name": "firstname", "in": "path", "required": true, "description": "Το μικρό όνομα του μαθητή", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Επιτυχής εύρεση μαθητή" }, "404": { "description": "Ο μαθητής δεν βρέθηκε" } }
+      }
+    },
+    "/api/students/update/{email}": {
+      "patch": {
+        "tags": ["Students"],
+        "description": "Ενημέρωση στοιχείων μαθητή με email",
+        "parameters": [
+          { "name": "email", "in": "path", "required": true, "description": "Το email του μαθητή", "schema": { "type": "string" } }
+        ],
+        "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Student" } } } },
+        "responses": { "200": { "description": "Ο μαθητής ενημερώθηκε" } }
+      }
+    },
+    "/api/students/delete/{email}": {
+      "delete": {
+        "tags": ["Students"],
+        "description": "Διαγραφή μαθητή με email",
+        "parameters": [
+          { "name": "email", "in": "path", "required": true, "description": "Το email του μαθητή", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Ο μαθητής διαγράφηκε" }, "404": { "description": "Ο μαθητής δεν γίνετε να διαγραφεί"} } }}}}
